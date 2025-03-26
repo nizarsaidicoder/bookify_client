@@ -1,41 +1,54 @@
-# W42 - Programmation web côté client
+# React + TypeScript + Vite
 
-Bienvenue dans ce module de programmation web côté client :-)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Vous trouverez dans ce dépôt les ressources nécessaires pour la réalisation des TP.
+Currently, two official plugins are available:
 
-## Tuto Git
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-En premier lieu, faites un **fork** de ce dépôt de sorte à en avoir une copie à vous dans laquelle vous pourrez ajouter vos réalisations.
-Une fois ce **fork** réalisé, changez son niveau de visibilité en "Privé" puis partagez-le avec votre enseignant en allant dans la section "Members" de votre dépôt et en l'ajoutant en tant que "Reporter".
+## Expanding the ESLint configuration
 
----
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-Vous pouvez maintenant **cloner** votre dépôt sur votre machine de travail afin de disposer d'un espace de travail local.
-Pour pouvoir interagir avec le serveur Gitlab depuis votre machine de travail, il faut ajouter la clé ssh de votre machine à votre profil utilisateur.
-Toutes les informations nécessaires se trouvent dans la section "SSH keys" de votre profil.
-
-Une fois cela fait, vous pouvez **cloner** votre dépôt :
-```sh
-git clone git@git.unistra.fr:[votre login]/w42.git
+```js
+export default tseslint.config({
+  extends: [
+    // Remove ...tseslint.configs.recommended and replace with this
+    ...tseslint.configs.recommendedTypeChecked,
+    // Alternatively, use this for stricter rules
+    ...tseslint.configs.strictTypeChecked,
+    // Optionally, add this for stylistic rules
+    ...tseslint.configs.stylisticTypeChecked,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
 ```
-Vous vous retrouvez alors devant un dossier w42 qui contient une copie locale de votre dépôt.
 
----
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-De nouvelles ressources seront ajoutés au fur et à mesure par les enseignants sur le dépôt de référence depuis lequel vous avez forké votre dépôt.
-De manière à pouvoir les récupérer, vous pouvez ajouter une nouvelle remote à la configuration de votre dépôt local :
-```sh
-git remote add upstream git@git.unistra.fr:w412/w42.git
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default tseslint.config({
+  plugins: {
+    // Add the react-x and react-dom plugins
+    'react-x': reactX,
+    'react-dom': reactDom,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended typescript rules
+    ...reactX.configs['recommended-typescript'].rules,
+    ...reactDom.configs.recommended.rules,
+  },
+})
 ```
-*upstream* est le nom que l'on choisit ici de donner à cette nouvelle **remote** (on aurait pu choisir un autre nom).
-C'est en général comme cela que l'on appelle le dépôt de référence depuis lequel on a forké son dépôt.
-Vous pouvez constater qu'il a bien été ajouté en exécutant cette commande (qui liste les remotes connues) :
-```sh
-git remote -v
-```
-Pour récupérer les commits ajoutés par vos enseignants sur le dépôt de référence, vous pouvez dorénavant faire :
-```sh
-git pull upstream main
-```
-*main* est ici le nom de la **branche** dans laquelle vous travaillez, mais cela, c'est une autre histoire dont on n'a pas forcément besoin pour le moment..
