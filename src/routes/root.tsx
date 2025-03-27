@@ -7,7 +7,7 @@ export default function Root() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="w-full  flex justify-center h-screen my-2 mr-2 ">
+      <main className="w-full flex justify-center h-screen my-2 mr-2 ">
         <Outlet />
       </main>
       <Toaster />

@@ -14,18 +14,17 @@ import {
 import { useState } from "react";
 
 interface AuthorFilterProps {
-  loadAuthors: (filter: GetAuthorParams) => Promise<void>;
+  onFilter: (filter: GetAuthorParams) => void;
 }
 
-function AuthorsFilter({ loadAuthors }: AuthorFilterProps) {
+function AuthorsFilter({ onFilter }: AuthorFilterProps) {
   const [filter, setFilter] = useState<GetAuthorParams>({});
 
-  const updateFilter = (name: string, value: string | boolean) => {
-    setFilter((prev) => {
-      const newFilter = { ...prev, [name]: value };
-      loadAuthors(newFilter);
-      return newFilter;
-    });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const updateFilter = (key: string, value: any) => {
+    const newFilter = { ...filter, [key]: value };
+    setFilter(newFilter);
+    onFilter(newFilter);
   };
 
   return (

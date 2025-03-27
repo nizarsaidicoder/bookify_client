@@ -1,52 +1,30 @@
-type Author = {
-  id: number;
-  firstname: string;
-  lastname: string;
-  bio?: string;
-  birthYear?: number | null;
-  deathYear?: number | null;
-  image?: string | null;
-  books?: Book[];
-};
-type AuthorBase = Omit<Author, "books" | "bio" | "birthYear" | "deathYear">;
-type AuthorCreationData = Omit<Author, "id" | "books">;
-type AuthorUpdateData = Partial<AuthorCreationData>;
+import {
+  Author,
+  AuthorBase,
+  AuthorCreationData,
+  GetAuthorParams,
+  AuthorUpdateData,
+} from "./types_author";
 
-type GetAuthorParams = {
-  firstname?: string;
-  lastname?: string;
-  hasSome?: boolean;
-  sortBy?: "firstname" | "lastname";
-  sortType?: "asc" | "desc";
-  take?: number;
-  skip?: number;
-};
-
-type Book = {
-  id: number;
-  title: string;
-  publicationYear: number | null;
-  authorId: number;
-  tags?: Tag[];
-};
-
-type Tag = {
-  id: number;
-  name: string;
-};
-
-type BookCreationData = {
-  title: string;
-  publicationYear: number;
-};
+import {
+  Book,
+  BookBase,
+  BookCreationData,
+  GetBookParams,
+  BookUpdateData,
+} from "./types_book";
+import { Tag } from "./types_tag";
 
 export type {
   Author,
-  Book,
   Tag,
   AuthorCreationData,
   GetAuthorParams,
-  BookCreationData,
   AuthorBase,
   AuthorUpdateData,
+  Book,
+  BookBase,
+  GetBookParams,
+  BookUpdateData,
+  BookCreationData,
 };

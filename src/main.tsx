@@ -6,7 +6,10 @@ import Books from "@routes/booksPage";
 import Root from "@routes/root";
 import AuthorsPage from "@routes/authorsPage";
 import AuthorPage from "@routes/authorPage";
-import AuthorsView from "@components/author/AuthorsView";
+import AuthorsView from "@components/authors/AuthorsView";
+import BooksPage from "@routes/booksPage";
+import BookPage from "@routes/bookPage";
+import BooksView from "@components/book/BooksView";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
@@ -16,8 +19,16 @@ createRoot(document.getElementById("root")!).render(
           element={<Root />}>
           <Route
             path="books"
-            element={<Books />}
-          />
+            element={<BooksPage />}>
+            <Route
+              index
+              element={<BooksView />}
+            />
+            <Route
+              path=":book_id"
+              element={<BookPage />}
+            />
+          </Route>
           <Route
             path="authors"
             element={<AuthorsPage />}>

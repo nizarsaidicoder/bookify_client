@@ -6,7 +6,6 @@ import {
   AuthorUpdateData,
 } from "@types";
 import { apiBasename } from ".";
-
 interface ErrorResponse {
   msg: string;
   code: number;
@@ -14,7 +13,7 @@ interface ErrorResponse {
 
 export async function get_authors(
   filter: GetAuthorParams
-): Promise<AuthorBase[]> {
+): Promise<{ authors: AuthorBase[]; totalPages: number }> {
   const query = new URLSearchParams(
     Object.fromEntries(
       Object.entries(filter)
@@ -33,7 +32,9 @@ export async function get_authors(
     throw new Error(msg.msg);
   }
 
-  return res.json();
+  const totalPages = parseInt(res.headers.get("X-Total-Pages") || "0", 10);
+  const authors: AuthorBase[] = await res.json();
+  return { authors, totalPages };
 }
 
 export async function add_author(author: AuthorCreationData) {
@@ -46,7 +47,6 @@ export async function add_author(author: AuthorCreationData) {
       delete author[key as keyof AuthorCreationData];
     }
   }
-  console.log(JSON.stringify(author));
   const res: Response = await fetch(`${apiBasename}/authors`, {
     method: "POST",
     headers: {
@@ -77,7 +77,6 @@ export async function update_author(
   id: number,
   author: AuthorUpdateData
 ): Promise<Omit<Author, "books">> {
-  console.log(JSON.stringify(author));
   const res: Response = await fetch(`${apiBasename}/authors/${id}`, {
     method: "PATCH",
     headers: {
