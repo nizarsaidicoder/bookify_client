@@ -25,43 +25,44 @@ function BooksPagination({
   return (
     <Pagination>
       <PaginationContent>
-      <PaginationItem>
-        <PaginationPrevious
-        href="#"
-        onClick={(e) => {
-          e.preventDefault();
-          handlePageChange(page - 1);
-        }}
-        />
-      </PaginationItem>
-      {Array.from({ length: Math.min(10, maxPage) }, (_, index) => {
-        const pageNumber = Math.max(
-        1,
-        Math.min(page - 5 + index, maxPage - 9 + index)
-        );
-        return (
-        <PaginationItem key={pageNumber}>
-          <PaginationLink
-          href="#"
-          isActive={pageNumber === page}
-          onClick={(e) => {
-            e.preventDefault();
-            handlePageChange(pageNumber);
-          }}>
-          {pageNumber}
-          </PaginationLink>
+        <PaginationItem>
+          <PaginationPrevious
+            onClick={(e) => {
+              e.preventDefault();
+              handlePageChange(page - 1);
+            }}
+            className="cursor-pointer"
+          />
         </PaginationItem>
-        );
-      })}
-      <PaginationItem>
-        <PaginationNext
-        href="#"
-        onClick={(e) => {
-          e.preventDefault();
-          handlePageChange(page + 1);
-        }}
-        />
-      </PaginationItem>
+        {Array.from(
+          new Set(
+            Array.from({ length: Math.min(10, maxPage) }, (_, index) =>
+              Math.max(1, Math.min(page - 5 + index, maxPage - 9 + index))
+            )
+          )
+        ).map((pageNumber) => (
+          <PaginationItem
+            key={pageNumber}
+            className="cursor-pointer">
+            <PaginationLink
+              isActive={pageNumber === page}
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(pageNumber);
+              }}>
+              {pageNumber}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+        <PaginationItem>
+          <PaginationNext
+            onClick={(e) => {
+              e.preventDefault();
+              handlePageChange(page + 1);
+            }}
+            className="cursor-pointer"
+          />
+        </PaginationItem>
       </PaginationContent>
     </Pagination>
   );

@@ -19,7 +19,7 @@ function BookPage() {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg border border-gray-200">
+    <div className="w-full h-[98vh] mx-auto p-6  shadow-md rounded-lg border border-gray-200">
       <h1 className="text-3xl font-bold">{book.title}</h1>
 
       {(book.tags ?? []).length > 0 && (
@@ -47,11 +47,11 @@ function BookPage() {
 
         <div className="flex-1">
           {author && (
-            <h2 className="text-lg text-gray-600">
+            <h2 className="text-lg ">
               by{" "}
               <Link
                 to={`/authors/${author.id}`}
-                className="text-blue-600 hover:underline">
+                className="text-violet-600 hover:underline">
                 {author.firstname} {author.lastname}
               </Link>
             </h2>
@@ -62,7 +62,7 @@ function BookPage() {
 
           <div className="mt-4">
             <h3 className="text-xl font-semibold">Description</h3>
-            <p className="mt-2 text-gray-700">{book.description}</p>
+            <p className="mt-2 ">{book.description}</p>
           </div>
         </div>
       </div>

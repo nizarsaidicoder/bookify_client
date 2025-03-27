@@ -16,7 +16,7 @@ type BookCreationData = {
   title: string;
   publicationYear: number;
   cover?: string;
-  description?: string; 
+  description?: string;
 };
 
 type GetBookParams = {

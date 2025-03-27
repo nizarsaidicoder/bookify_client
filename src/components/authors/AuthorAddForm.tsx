@@ -5,6 +5,7 @@ import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { Textarea } from "@components/ui/textarea";
 
 interface AuthorAddFormProps {
   onAddAuthor: (author: Author) => void;
@@ -61,7 +62,8 @@ function AuthorAddForm({ onAddAuthor }: AuthorAddFormProps) {
 
   return (
     <div className="border-1 rounded-sm p-6 flex flex-col gap-4 max-w-sm h-fit">
-      <h2 className="text-2xl font-bold text-center">Add an author</h2>
+      <h2 className="text-xl font-semibold">Add an author</h2>
+
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-4">
@@ -87,9 +89,8 @@ function AuthorAddForm({ onAddAuthor }: AuthorAddFormProps) {
           type="number"
           placeholder="Death Year"
         />
-        <Input
+        <Textarea
           name="bio"
-          type="text"
           placeholder="Bio"
         />
         <Input

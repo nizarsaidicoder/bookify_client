@@ -20,6 +20,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { NavLink } from "react-router";
+import { ModeToggle } from "./ui/mode-toggle";
 
 // Menu items.
 const items = [
@@ -70,6 +71,10 @@ export function AppSidebar() {
                     <span>Bookify</span>
                   </NavLink>
                 </SidebarMenuButton>
+                <div className="flex items-center gap-2 mt-2 ml-2">
+                  <span className="text-xmd ">Change theme</span>
+                  <ModeToggle />
+                </div>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

@@ -58,8 +58,8 @@ function AuthorsView() {
     <div className="w-full h-full flex flex-col gap-8">
       <div className="flex flex-row gap-8">
         <AuthorsSideBar>
-          <AuthorAddForm onAddAuthor={handleAddAuthor} />
           <AuthorsFilter onFilter={setFilter} />
+          <AuthorAddForm onAddAuthor={handleAddAuthor} />
         </AuthorsSideBar>
         <div className="flex flex-col gap-4 w-full">
           <AuthorsList authors={authors} />

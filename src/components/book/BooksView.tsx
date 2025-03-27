@@ -29,7 +29,6 @@ function BooksView() {
       const data = await get_books(filter);
       setBooks(data.books);
       setMaxPage(data.totalPages);
-      console.log(data.totalPages);
     } catch (err) {
       setError("Error loading books");
       console.error(err);

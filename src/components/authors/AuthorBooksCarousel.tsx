@@ -22,6 +22,7 @@ function AuthorBooksCarousel({ books }: AuthorBooksCarouselProps) {
             className="pl-4 md:basis-1/2 lg:basis-1/2"
             key={book.id}>
             <BookCard
+              id={book.id}
               title={book.title}
               cover={book.cover}
               publicationYear={book.publicationYear}
@@ -29,8 +30,8 @@ function AuthorBooksCarousel({ books }: AuthorBooksCarouselProps) {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      <CarouselPrevious className="ml-8" />
+      <CarouselNext className="mr-4" />
     </Carousel>
   );
 }

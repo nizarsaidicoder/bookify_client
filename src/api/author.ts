@@ -23,8 +23,8 @@ export async function get_authors(
     )
   ).toString();
   const url = query
-    ? `${apiBasename}/authors?${query}`
-    : `${apiBasename}/authors`;
+    ? `${apiBasename}/authors?${query}&take=9`
+    : `${apiBasename}/authors?take=9`;
 
   const res = await fetch(url);
   if (!res.ok) {

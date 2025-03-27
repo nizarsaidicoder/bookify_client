@@ -23,7 +23,9 @@ export async function get_books(
         .map(([key, value]) => [key, String(value)])
     )
   ).toString();
-  const url = query ? `${apiBasename}/books?${query}` : `${apiBasename}/books`;
+  const url = query
+    ? `${apiBasename}/books?${query}&take=9`
+    : `${apiBasename}/books?take=9`;
 
   const res = await fetch(url);
   if (!res.ok) {
@@ -33,7 +35,6 @@ export async function get_books(
 
   const totalPages = parseInt(res.headers.get("X-Total-Pages") || "0", 10);
   const books: BookBase[] = await res.json();
-  console.log(totalPages);
   return { books, totalPages };
 }
 

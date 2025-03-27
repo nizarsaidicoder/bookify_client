@@ -18,6 +18,7 @@ function BooksList({ books }: BooksListProps) {
             to={`/books/${book.id}`}
             key={book.id}>
             <BookCard
+              id={book.id}
               title={book.title}
               publicationYear={book.publicationYear}
               cover={book.cover}
