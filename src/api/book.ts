@@ -4,6 +4,7 @@ import {
   BookCreationData,
   BookUpdateData,
   GetBookParams,
+  Tag,
 } from "@types";
 import { apiBasename } from ".";
 
@@ -123,7 +124,9 @@ function removeEmptyFields(
   if ("tags" in cleanedBook && typeof cleanedBook.tags === "string") {
     return {
       ...cleanedBook,
-      tags: cleanedBook.tags.split(",").map((tag) => tag.trim()),
+      tags: cleanedBook.tags
+        .split(",")
+        .map((tag) => ({ name: tag.trim() } as Tag)),
     };
   }
 
