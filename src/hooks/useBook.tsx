@@ -30,5 +30,5 @@ export function useBook(bookId?: string) {
     fetchBook();
   }, [bookId]);
 
-  return { book, author, loading };
+  return { book, author, loading,setBook };
 }

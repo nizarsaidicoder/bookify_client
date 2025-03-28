@@ -17,6 +17,7 @@ type BookCreationData = {
   publicationYear: number;
   cover?: string;
   description?: string;
+  tags?: string;
 };
 
 type GetBookParams = {
@@ -26,6 +27,7 @@ type GetBookParams = {
   sortBy?: "title" | "publicationYear";
   sortType?: "asc" | "desc";
   page?: number;
+  genres?: string;
 };
 
 type BookUpdateData = Partial<BookCreationData>;

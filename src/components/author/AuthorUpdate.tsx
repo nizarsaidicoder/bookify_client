@@ -16,10 +16,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { update_book, delete_book } from "@/api/book";
-import { Book, BookUpdateData, Tag } from "@types";
-import { useEffect, useState } from "react";
-import { MultiSelect } from "@components/ui/multiselect";
-import { get_tags } from "@/api/tag";
+import { Book, BookUpdateData } from "@types";
+import { useState } from "react";
 
 function BookPage() {
   const { book_id } = useParams();
@@ -127,38 +125,21 @@ function BookUpdate({ book, onBookUpdate }: BookUpdateProps) {
     description: book.description || "",
     cover: book.cover || "",
   });
-  const [tags, setTags] = useState<string[]>([]); // ✅ Persist tags in state
-  const [selectedTags, setSelectedTags] = useState<string[]>(
-    book.tags?.map((tag) => tag.name) || []
-  ); // ✅ Persist selected tags in state
 
-  useEffect(() => {
-    const fetchTags = async () => {
-      try {
-        const fetchedTags = await get_tags();
-        setTags(fetchedTags.map((tag: Tag) => tag.name)); // ✅ Update state correctly
-      } catch (error) {
-        console.error("Failed to fetch tags:", error);
-      }
-    };
-
-    fetchTags();
-  }, []); // ✅ Runs only once on mount
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = async () => {
-    const bookPayload: BookUpdateData = {
+    const updatedBook: BookUpdateData = {
       title: formData.title,
-      publicationYear: Number(formData.publicationYear),
+      publicationYear: formData.publicationYear,
       description: formData.description,
       cover: formData.cover,
-      tags: selectedTags.join(","),
     };
     try {
-      const updatedBook = await update_book(book.id, bookPayload);
-      onBookUpdate(updatedBook);
+      await update_book(book.id, updatedBook);
+      onBookUpdate({ ...book, ...updatedBook });
       toast("Book updated successfully");
     } catch (error) {
       toast("Failed to update book " + error);
@@ -183,7 +164,7 @@ function BookUpdate({ book, onBookUpdate }: BookUpdateProps) {
       <DialogTrigger asChild>
         <Button variant="outline">Edit Book</Button>
       </DialogTrigger>
-      <DialogContent className="">
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit Book</DialogTitle>
           <DialogDescription>
@@ -192,7 +173,11 @@ function BookUpdate({ book, onBookUpdate }: BookUpdateProps) {
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="title">Title</Label>
+            <Label
+              htmlFor="title"
+              className="text-right">
+              Title
+            </Label>
             <Input
               id="title"
               value={formData.title}
@@ -202,7 +187,11 @@ function BookUpdate({ book, onBookUpdate }: BookUpdateProps) {
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="publicationYear">Publication Year</Label>
+            <Label
+              htmlFor="publicationYear"
+              className="text-right">
+              Publication Year
+            </Label>
             <Input
               id="publicationYear"
               type="number"
@@ -213,7 +202,11 @@ function BookUpdate({ book, onBookUpdate }: BookUpdateProps) {
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="cover">Cover URL</Label>
+            <Label
+              htmlFor="cover"
+              className="text-right">
+              Cover URL
+            </Label>
             <Input
               id="cover"
               value={formData.cover}
@@ -223,21 +216,16 @@ function BookUpdate({ book, onBookUpdate }: BookUpdateProps) {
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="description">Description</Label>
+            <Label
+              htmlFor="description"
+              className="text-right">
+              Description
+            </Label>
             <Textarea
               id="description"
               value={formData.description}
               onChange={handleTextareaChange}
               className="col-span-3"
-            />
-          </div>
-          <div className="grid  items-center gap-4">
-            <Label htmlFor="description">Tags</Label>
-            <MultiSelect
-              selected={selectedTags}
-              options={tags}
-              onChange={setSelectedTags}
-              placeholder="Select tags"
             />
           </div>
         </div>

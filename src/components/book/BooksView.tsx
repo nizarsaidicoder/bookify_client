@@ -2,9 +2,8 @@ import BookSideBar from "@components/book/BooksSideBar";
 import BooksList from "@components/book/BooksList";
 import { useEffect, useState } from "react";
 import { get_books } from "@/api/book";
-import { Book, GetBookParams, BookBase } from "@types";
+import { GetBookParams, BookBase } from "@types";
 import { Loader2Icon } from "lucide-react";
-import BookAddForm from "./BookAddForm";
 import BooksFilter from "./BooksFilter";
 import BooksPagination from "./BookPagination";
 
@@ -45,10 +44,6 @@ function BooksView() {
     fetchBooks(filter);
   }, [filter, page]);
 
-  const handleAddBook = (newBook: Book) => {
-    setBooks([newBook, ...books]);
-  };
-
   if (loading)
     return <Loader2Icon className="animate-spin h-10 w-10 mx-auto" />;
 
@@ -58,7 +53,6 @@ function BooksView() {
     <div className="w-full h-full flex flex-col gap-8">
       <div className="flex flex-row gap-8">
         <BookSideBar>
-          <BookAddForm onAddBook={handleAddBook} />
           <BooksFilter onFilter={setFilter} />
         </BookSideBar>
         <div className="flex flex-col gap-4 w-full">

@@ -1,5 +1,4 @@
 import { BookBase } from "@types";
-import { NavLink } from "react-router";
 import BookCard from "./BookCard";
 
 interface BooksListProps {
@@ -14,16 +13,13 @@ function BooksList({ books }: BooksListProps) {
     <>
       <div className="w-full h-[90vh] p-4 custom-scroll grid grid-cols-3 gap-4 border-1 border-gray-200 rounded-md">
         {books.map((book) => (
-          <NavLink
-            to={`/books/${book.id}`}
-            key={book.id}>
-            <BookCard
-              id={book.id}
-              title={book.title}
-              publicationYear={book.publicationYear}
-              cover={book.cover}
-            />
-          </NavLink>
+          <BookCard
+            key={book.id}
+            id={book.id}
+            title={book.title}
+            publicationYear={book.publicationYear}
+            cover={book.cover}
+          />
         ))}
       </div>
     </>

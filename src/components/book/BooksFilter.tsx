@@ -1,4 +1,4 @@
-import { GetBookParams } from "@types";
+import { GetBookParams, Tag } from "@types";
 import { Label } from "@components/ui/label";
 import { Input } from "@components/ui/input";
 import {
@@ -10,7 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { MultiSelect } from "@components/ui/multiselect";
+import { get_tags } from "@/api/tag";
 
 interface BooksFilterProps {
   onFilter: (filter: GetBookParams) => void;
@@ -18,12 +20,31 @@ interface BooksFilterProps {
 
 function BooksFilter({ onFilter }: BooksFilterProps) {
   const [filter, setFilter] = useState<GetBookParams>({});
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]); // ✅ Persist tags in state
 
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const fetchedTags = await get_tags();
+        setTags(fetchedTags.map((tag: Tag) => tag.name)); // ✅ Update state correctly
+      } catch (error) {
+        console.error("Failed to fetch tags:", error);
+      }
+    };
+
+    fetchTags();
+  }, []); // ✅ Runs only once on mount
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateFilter = (key: string, value: any) => {
     const newFilter = { ...filter, [key]: value };
     setFilter(newFilter);
     onFilter(newFilter);
+  };
+
+  const handleTagChange = (selected: string[]) => {
+    setSelectedTags(selected);
+    updateFilter("tags", selected);
   };
 
   return (
@@ -70,6 +91,15 @@ function BooksFilter({ onFilter }: BooksFilterProps) {
               )
             }
             placeholder="123..."
+          />
+        </div>
+        <div className="flex flex-col gap-2 items-start">
+          <Label>Filter by tags</Label>
+          <MultiSelect
+            options={tags}
+            selected={selectedTags}
+            onChange={handleTagChange}
+            placeholder="Select tags"
           />
         </div>
       </div>
