@@ -29,7 +29,7 @@ export function SigninForm({
       };
       await sign_in(signinData);
       toast("Signed in successfully");
-      navigator("/authors");
+      navigator("/authors", { replace: true });
     } catch (err: unknown) {
       toast("Error signing in", {
         description:

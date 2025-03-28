@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { sign_up } from "@/api/auth";
 import { SignUpData } from "@types";
@@ -12,6 +12,7 @@ export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const navigator = useNavigate();
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -36,7 +37,7 @@ export function SignupForm({
     try {
       await sign_up(signupData);
       toast("Account created successfully");
-      form.reset();
+      navigator("/signin", { replace: true });
     } catch (err: unknown) {
       toast("Error creating account", {
         description:
