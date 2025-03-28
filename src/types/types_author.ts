@@ -5,12 +5,12 @@ type Author = {
   firstname: string;
   lastname: string;
   bio?: string;
-  birthYear?: number | null;
-  deathYear?: number | null;
+  birthDate?: Date | null;
+  deathDate?: Date | null;
   image?: string | null;
   books?: BookBase[];
 };
-type AuthorBase = Omit<Author, "books" | "bio" | "birthYear" | "deathYear">;
+type AuthorBase = Omit<Author, "books" | "bio" | "birthDate" | "deathDate">;
 type AuthorCreationData = Omit<Author, "id" | "books">;
 type AuthorUpdateData = Partial<AuthorCreationData>;
 type GetAuthorParams = {

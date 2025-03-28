@@ -58,8 +58,16 @@ export function AuthorPage() {
             <AuthorHeader
               firstname={author.firstname}
               lastname={author.lastname}
-              birthYear={author.birthYear?.toString() || ""}
-              deathYear={author.deathYear?.toString() || ""}
+              birthYear={
+                author.birthDate
+                  ? new Date(author.birthDate).getFullYear().toString()
+                  : ""
+              }
+              deathYear={
+                author.deathDate
+                  ? new Date(author.deathDate).getFullYear().toString()
+                  : ""
+              }
               image={author.image || ""}
             />
             <AuthorActions

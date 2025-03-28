@@ -1,6 +1,5 @@
 import { SignInData, SignUpData, User, UserToken } from "@types";
 import { apiBasename } from ".";
-import { redirect, useNavigate } from "react-router";
 
 interface ErrorResponse {
   msg: string;

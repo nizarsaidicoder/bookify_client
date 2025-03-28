@@ -6,6 +6,7 @@ import { Input } from "@components/ui/input";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Textarea } from "@components/ui/textarea";
+import { DatePicker } from "@components/ui/date-picker";
 
 interface AuthorAddFormProps {
   onAddAuthor: (author: Author) => void;
@@ -13,7 +14,8 @@ interface AuthorAddFormProps {
 
 function AuthorAddForm({ onAddAuthor }: AuthorAddFormProps) {
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
+  const [deathDate, setDeathDate] = useState<Date | undefined>(undefined);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -23,19 +25,15 @@ function AuthorAddForm({ onAddAuthor }: AuthorAddFormProps) {
     const lastname = formData.get("lastname") as string;
     const bio = formData.get("bio") as string;
     const image = formData.get("image") as string;
-    const birthYear: number | null = formData.get("birthYear")
-      ? Number(formData.get("birthYear"))
-      : null;
-    const deathYear: number | null = formData.get("deathYear")
-      ? Number(formData.get("deathYear"))
-      : null;
+    const birth_date = birthDate || null;
+    const death_date = deathDate || null;
     const newAuthor: AuthorCreationData = {
       firstname,
       lastname,
-      birthYear,
-      deathYear,
       bio,
       image,
+      birthDate: birth_date,
+      deathDate: death_date,
     };
 
     try {
@@ -79,16 +77,17 @@ function AuthorAddForm({ onAddAuthor }: AuthorAddFormProps) {
           placeholder="Last Name"
           required
         />
-        <Input
-          name="birthYear"
-          type="number"
-          placeholder="Birth Year"
+        <DatePicker
+          date={birthDate}
+          setDate={setBirthDate}
+          placeholder="Birth Date"
         />
-        <Input
-          name="deathYear"
-          type="number"
-          placeholder="Death Year"
+        <DatePicker
+          date={deathDate}
+          setDate={setDeathDate}
+          placeholder="Death Date"
         />
+
         <Textarea
           name="bio"
           placeholder="Bio"

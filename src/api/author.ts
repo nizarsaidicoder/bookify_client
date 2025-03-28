@@ -38,21 +38,18 @@ export async function get_authors(
 }
 
 export async function add_author(author: AuthorCreationData) {
-  // remove all empty fields
-  for (const key in author) {
-    if (
-      !author[key as keyof AuthorCreationData] &&
-      author[key as keyof AuthorCreationData] !== 0
-    ) {
-      delete author[key as keyof AuthorCreationData];
-    }
-  }
+  // remove all empty fields or null fields from the author object
+  const filteredAuthor: AuthorCreationData = Object.fromEntries(
+    Object.entries(author).filter(
+      ([_, value]) => value !== "" && value !== null
+    )
+  ) as AuthorCreationData;
   const res: Response = await fetch(`${apiBasename}/authors`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(author),
+    body: JSON.stringify(filteredAuthor),
   });
   if (!res.ok) {
     const msg: ErrorResponse = await res.json();

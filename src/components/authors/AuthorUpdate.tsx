@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Author, AuthorUpdateData } from "@types";
 import { update_author } from "@/api/author";
 import { toast } from "sonner";
+import { DatePicker } from "@components/ui/date-picker";
 
 interface AuthorUpdateProps {
   author: Author;
@@ -26,11 +27,15 @@ function AuthorUpdate({ author, onAuthorUpdate }: AuthorUpdateProps) {
   const [formData, setFormData] = useState({
     lastname: author.lastname || "",
     firstname: author.firstname || "",
-    birthYear: author.birthYear || null,
-    deathYear: author.deathYear || null,
     bio: author.bio || "",
     image: author.image || "",
   });
+  const [deathDate, setDeathDate] = useState<Date | undefined>(
+    author.deathDate || undefined
+  );
+  const [birthDate, setBirthDate] = useState<Date | undefined>(
+    author.birthDate || undefined
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -40,8 +45,8 @@ function AuthorUpdate({ author, onAuthorUpdate }: AuthorUpdateProps) {
     const updatedAuthor: AuthorUpdateData = {
       lastname: formData.lastname,
       firstname: formData.firstname,
-      birthYear: formData.birthYear,
-      deathYear: formData.deathYear,
+      birthDate,
+      deathDate,
       bio: formData.bio,
       image: formData.image,
     };
@@ -58,11 +63,11 @@ function AuthorUpdate({ author, onAuthorUpdate }: AuthorUpdateProps) {
     setFormData({
       lastname: author.lastname || "",
       firstname: author.firstname || "",
-      birthYear: author.birthYear || null,
-      deathYear: author.deathYear || null,
       bio: author.bio || "",
       image: author.image || "",
     });
+    setBirthDate(author.birthDate ? author.birthDate : undefined);
+    setDeathDate(author.deathDate ? author.deathDate : undefined);
   };
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -110,30 +115,26 @@ function AuthorUpdate({ author, onAuthorUpdate }: AuthorUpdateProps) {
 
           <div className="grid grid-cols-4 items-center gap-4">
             <Label
-              htmlFor="birthYear"
+              htmlFor="birthDate"
               className="text-right">
-              Birth year
+              Birth Date
             </Label>
-            <Input
-              id="birthYear"
-              type="number"
-              value={formData.birthYear || ""}
-              onChange={handleChange}
-              className="col-span-3"
+            <DatePicker
+              date={birthDate}
+              setDate={setBirthDate}
+              placeholder="Birth Date"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label
-              htmlFor="deathYear"
+              htmlFor="deathDate"
               className="text-right">
-              Death year
+              Death Date
             </Label>
-            <Input
-              id="deathYear"
-              type="number"
-              value={formData.deathYear || ""}
-              onChange={handleChange}
-              className="col-span-3"
+            <DatePicker
+              date={deathDate}
+              setDate={setDeathDate}
+              placeholder="Death Date"
             />
           </div>
           <Textarea
