@@ -9,17 +9,21 @@ import {
 import BookCard from "@components/book/BookCard";
 import { BookBase } from "@types";
 
-interface AuthorBooksCarouselProps {
+interface BooksCarouselProps {
   books: BookBase[];
+  show?: number;
 }
 
-function AuthorBooksCarousel({ books }: AuthorBooksCarouselProps) {
+function BooksCarousel({ books, show = 3 }: BooksCarouselProps) {
+  if (!books.length) return null;
+  if (books.length < show) show = books.length;
   return (
-    <Carousel className="w-full max-w-xl">
-      <CarouselContent className="-ml-1">
+    <Carousel className="w-[90%] mx-auto">
+      <CarouselContent className="-ml-1 w-full">
         {books.map((book) => (
           <CarouselItem
-            className="pl-4 md:basis-1/2 lg:basis-1/2"
+            className={`w-1 px-1`}
+            style={{ flexBasis: `${100 / show}%` }}
             key={book.id}>
             <BookCard
               id={book.id}
@@ -36,4 +40,4 @@ function AuthorBooksCarousel({ books }: AuthorBooksCarouselProps) {
   );
 }
 
-export default AuthorBooksCarousel;
+export default BooksCarousel;

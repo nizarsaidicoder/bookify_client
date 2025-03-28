@@ -5,6 +5,7 @@ import {
   KeyRound,
   UserRoundPlus,
   BookType,
+  LucideProps,
 } from "lucide-react";
 
 import {
@@ -21,9 +22,15 @@ import {
 } from "@/components/ui/sidebar";
 import { NavLink } from "react-router";
 import { ModeToggle } from "./ui/mode-toggle";
-
+interface NavItem {
+  title: string;
+  url: string;
+  icon: React.ForwardRefExoticComponent<
+    Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
+  >;
+}
 // Menu items.
-const items = [
+const items: NavItem[] = [
   {
     title: "Home",
     url: "/",
@@ -41,20 +48,32 @@ const items = [
   },
 ];
 
-const auth_items = [
-  {
+const auth_items: NavItem[] = [];
+
+if (!localStorage.getItem("userToken")) {
+  auth_items.push({
     title: "Sign in",
-    url: "/login",
+    url: "/signin",
     icon: KeyRound,
-  },
-  {
+  });
+  auth_items.push({
     title: "Sign up",
     url: "/signup",
     icon: UserRoundPlus,
-  },
-];
+  });
+} else
+  auth_items.push({
+    title: "Sign out",
+    url: "/",
+    icon: UserRoundPlus,
+  });
 
 export function AppSidebar() {
+  const signout = () => {
+    localStorage.removeItem("userToken");
+    window.location.reload();
+  };
+
   return (
     <Sidebar
       className="m-2 border-1 border-gray-200 rounded-md h-[98vh]"
@@ -108,10 +127,17 @@ export function AppSidebar() {
               {auth_items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
+                    {item.title === "Sign out" ? (
+                      <button onClick={signout}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </button>
+                    ) : (
+                      <NavLink to={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </NavLink>
+                    )}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

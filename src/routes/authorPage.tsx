@@ -1,4 +1,3 @@
-import AuthorBooksCarousel from "@components/authors/AuthorBooksCarousel";
 import AuthorBookAddForm from "@components/author/AuthorBookAddForm";
 import { useParams } from "react-router";
 import { useAuthor } from "@/hooks/useAuthor";
@@ -10,6 +9,7 @@ import { AuthorBio } from "@components/author/AuthorBio";
 import { AuthorHeader } from "@components/author/AuthorHeader";
 import { AuthorActions } from "@components/author/AuthorActions";
 import { delete_author } from "@/api/author";
+import BooksCarousel from "@components/authors/BooksCarousel";
 
 export function AuthorPage() {
   const author_id = Number(useParams().author_id);
@@ -75,7 +75,7 @@ export function AuthorPage() {
               <AuthorBio bio={author.bio || ""} />
             </div>
             {(author.books?.length ?? 0) > 0 && (
-              <AuthorBooksCarousel books={author.books || []} />
+              <BooksCarousel books={author.books || []} />
             )}
           </div>
         </div>

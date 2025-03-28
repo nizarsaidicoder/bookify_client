@@ -1,5 +1,5 @@
 import { Button } from "@components/ui/button";
-import AuthorUpdate from "@components/author/AuthorUpdate";
+import AuthorUpdate from "@components/authors/AuthorUpdate";
 import { Author } from "@types";
 
 interface AuthorActionsProps {

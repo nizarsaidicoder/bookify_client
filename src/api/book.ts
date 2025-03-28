@@ -102,12 +102,22 @@ export async function delete_book(id: number): Promise<void> {
 }
 
 export async function get_similar_books(id: number): Promise<BookBase[]> {
-  const res = await fetch(`${apiBasename}/books/${id}/similar`);
+  const res = await fetch(`${apiBasename}/books/${id}/similars`);
   if (!res.ok) {
     const msg = await res.text();
     throw new Error(msg);
   }
   return await res.json();
+}
+
+export async function get_average_book_rating(id: number): Promise<number> {
+  const res = await fetch(`${apiBasename}/books/${id}/ratings/average`);
+  if (!res.ok) {
+    const msg = await res.text();
+    throw new Error(msg);
+  }
+  const { average } = await res.json();
+  return average;
 }
 
 function removeEmptyFields(book: Partial<Book>): Partial<Book> {

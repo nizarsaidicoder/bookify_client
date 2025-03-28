@@ -9,6 +9,8 @@ import AuthorsView from "@components/authors/AuthorsView";
 import BooksPage from "@routes/booksPage";
 import BookPage from "@routes/bookPage";
 import BooksView from "@components/book/BooksView";
+import SigninPage from "@routes/siginPage";
+import SignupPage from "@routes/signupPage";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
@@ -16,6 +18,14 @@ createRoot(document.getElementById("root")!).render(
         <Route
           path="/"
           element={<Root />}>
+          <Route
+            path="/signin"
+            element={<SigninPage />}
+          />
+          <Route
+            path="/signup"
+            element={<SignupPage />}
+          />
           <Route
             path="books"
             element={<BooksPage />}>

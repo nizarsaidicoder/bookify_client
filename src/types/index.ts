@@ -15,6 +15,8 @@ import {
 } from "./types_book";
 import { Tag } from "./types_tag";
 
+import { SignInData, SignUpData, User, UserToken } from "./types_auth";
+
 export type {
   Author,
   Tag,
@@ -27,4 +29,8 @@ export type {
   GetBookParams,
   BookUpdateData,
   BookCreationData,
+  SignInData,
+  SignUpData,
+  User,
+  UserToken,
 };
