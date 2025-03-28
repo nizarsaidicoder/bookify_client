@@ -110,11 +110,22 @@ export async function get_similar_books(id: number): Promise<BookBase[]> {
   return await res.json();
 }
 
-function removeEmptyFields(book: Partial<Book>): Partial<Book> {
-  return Object.fromEntries(
+function removeEmptyFields(
+  book: Partial<Book> | BookCreationData
+): Partial<Book> | BookCreationData {
+  const cleanedBook = Object.fromEntries(
     Object.entries(book).filter(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ([_, value]) => value !== undefined && value !== null && value !== ""
     )
   );
+
+  if ("tags" in cleanedBook && typeof cleanedBook.tags === "string") {
+    return {
+      ...cleanedBook,
+      tags: cleanedBook.tags.split(",").map((tag) => tag.trim()),
+    };
+  }
+
+  return cleanedBook;
 }
