@@ -49,6 +49,13 @@ function AuthorsView() {
     setAuthors([newAuthor, ...authors]);
   };
 
+  const handleFilter = (newFilter: GetAuthorParams) => {
+    setFilter((prevFilter) => ({
+      ...prevFilter,
+      ...newFilter,
+    }));
+  };
+
   if (loading)
     return <Loader2Icon className="animate-spin h-10 w-10 mx-auto" />;
 
@@ -58,7 +65,7 @@ function AuthorsView() {
     <div className="w-full h-full flex flex-col gap-8">
       <div className="flex flex-row gap-8">
         <AuthorsSideBar>
-          <AuthorsFilter onFilter={setFilter} />
+          <AuthorsFilter onFilter={handleFilter} />
           <AuthorAddForm onAddAuthor={handleAddAuthor} />
         </AuthorsSideBar>
         <div className="flex flex-col gap-4 w-full">

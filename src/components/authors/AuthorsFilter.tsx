@@ -22,7 +22,7 @@ function AuthorsFilter({ onFilter }: AuthorFilterProps) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateFilter = (key: string, value: any) => {
-    const newFilter = { ...filter, [key]: value };
+    const newFilter: GetAuthorParams = { ...filter, [key]: value };
     setFilter(newFilter);
     onFilter(newFilter);
   };

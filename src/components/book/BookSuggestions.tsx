@@ -1,5 +1,5 @@
 import { get_similar_books } from "@/api/book";
-import BooksCarousel from "@components/authors/BooksCarousel";
+import BooksCarousel from "@components/book/BooksCarousel";
 import { BookBase } from "@types";
 import { useEffect, useState } from "react";
 

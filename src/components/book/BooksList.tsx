@@ -19,6 +19,7 @@ function BooksList({ books }: BooksListProps) {
             title={book.title}
             publicationYear={book.publicationYear}
             cover={book.cover}
+            rating={book.avgRating}
           />
         ))}
       </div>
