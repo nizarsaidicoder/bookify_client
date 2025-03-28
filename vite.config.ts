@@ -18,5 +18,9 @@ export default defineConfig({
       "@styles": path.resolve(__dirname, "src/styles"),
     },
   },
+  build: {
+    outDir: "build",
+    sourcemap: true,
+  },
 });
 // "@types": ["src/types/index.ts"],
