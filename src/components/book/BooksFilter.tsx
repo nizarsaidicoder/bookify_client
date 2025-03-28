@@ -117,6 +117,7 @@ function BooksFilter({ onFilter }: BooksFilterProps) {
               <SelectLabel>Sort by</SelectLabel>
               <SelectItem value="title">Title</SelectItem>
               <SelectItem value="publicationYear">Publication Year</SelectItem>
+              <SelectItem value="avgRating">Rating</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>

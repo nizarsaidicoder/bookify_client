@@ -38,9 +38,9 @@ export async function get_authors(
 }
 
 export async function add_author(author: AuthorCreationData) {
-  // remove all empty fields or null fields from the author object
   const filteredAuthor: AuthorCreationData = Object.fromEntries(
     Object.entries(author).filter(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ([_, value]) => value !== "" && value !== null
     )
   ) as AuthorCreationData;

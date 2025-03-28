@@ -8,6 +8,7 @@ type Book = {
   description: string | null;
   authorId: number;
   tags?: Tag[];
+  avgRating?: number | null;
 };
 
 type BookBase = Omit<Book, "tags" | "description">;
@@ -24,7 +25,7 @@ type GetBookParams = {
   title?: string;
   authorId?: number;
   publicationYear?: number;
-  sortBy?: "title" | "publicationYear";
+  sortBy?: "title" | "publicationYear" | "rating";
   sortType?: "asc" | "desc";
   page?: number;
   genres?: string;

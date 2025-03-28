@@ -9,7 +9,7 @@ import { AuthorBio } from "@components/author/AuthorBio";
 import { AuthorHeader } from "@components/author/AuthorHeader";
 import { AuthorActions } from "@components/author/AuthorActions";
 import { delete_author } from "@/api/author";
-import BooksCarousel from "@components/authors/BooksCarousel";
+import BooksCarousel from "@components/book/BooksCarousel";
 
 export function AuthorPage() {
   const author_id = Number(useParams().author_id);

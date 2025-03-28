@@ -110,16 +110,6 @@ export async function get_similar_books(id: number): Promise<BookBase[]> {
   return await res.json();
 }
 
-export async function get_average_book_rating(id: number): Promise<number> {
-  const res = await fetch(`${apiBasename}/books/${id}/ratings/average`);
-  if (!res.ok) {
-    const msg = await res.text();
-    throw new Error(msg);
-  }
-  const { average } = await res.json();
-  return average;
-}
-
 function removeEmptyFields(book: Partial<Book>): Partial<Book> {
   return Object.fromEntries(
     Object.entries(book).filter(

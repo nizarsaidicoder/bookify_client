@@ -30,6 +30,7 @@ function BooksCarousel({ books, show = 3 }: BooksCarouselProps) {
               title={book.title}
               cover={book.cover}
               publicationYear={book.publicationYear}
+              rating={book.avgRating}
             />
           </CarouselItem>
         ))}
