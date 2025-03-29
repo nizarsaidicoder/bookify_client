@@ -7,11 +7,21 @@ import { toast } from "sonner";
 import BookUpdate from "@components/book/BookUpdate";
 import BookSuggestions from "@components/book/BookSuggestions";
 import { Comment } from "@/types/types_comment";
+import { Heart } from "lucide-react";
+import { useEffect, useState } from "react";
 
 function BookPage() {
   const { book_id } = useParams();
   const { book, author, loading, setBook } = useBook(book_id);
+  const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const favoriteBooks = JSON.parse(
+      localStorage.getItem("favoriteBooks") || "[]"
+    );
+    setIsFavorite(favoriteBooks.includes(book?.id));
+  }, [book?.id]);
 
   const handleDelete = async () => {
     if (!book) return;
@@ -23,6 +33,29 @@ function BookPage() {
       toast("Failed to delete book");
       console.error(error);
     }
+  };
+
+  const handleFavorite = async (favorite: boolean) => {
+    if (!book) return;
+    const favoriteBooks = JSON.parse(
+      localStorage.getItem("favoriteBooks") || "[]"
+    );
+    if (favorite) {
+      if (!favoriteBooks.includes(book.id)) {
+        favoriteBooks.push(book.id);
+        setIsFavorite(true);
+      }
+    } else {
+      const index = favoriteBooks.indexOf(book.id);
+      if (index > -1) {
+        favoriteBooks.splice(index, 1);
+        setIsFavorite(false);
+      }
+    }
+    localStorage.setItem("favoriteBooks", JSON.stringify(favoriteBooks));
+    toast(
+      isFavorite ? "Book removed from favorites" : "Book added to favorites"
+    );
   };
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
@@ -56,6 +89,19 @@ function BookPage() {
             onClick={handleDelete}>
             Delete
           </Button>
+          {isFavorite ? (
+            <Button
+              variant="outline"
+              onClick={() => handleFavorite(false)}>
+              <Heart className="text-red-500" /> Unfavorite
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              onClick={() => handleFavorite(true)}>
+              <Heart className="text-red-500" /> Favorite
+            </Button>
+          )}
         </div>
       </div>
 
