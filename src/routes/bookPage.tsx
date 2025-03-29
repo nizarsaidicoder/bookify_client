@@ -6,6 +6,7 @@ import { delete_book } from "@/api/book";
 import { toast } from "sonner";
 import BookUpdate from "@components/book/BookUpdate";
 import BookSuggestions from "@components/book/BookSuggestions";
+import { Comment } from "@/types/types_comment";
 
 function BookPage() {
   const { book_id } = useParams();
@@ -39,7 +40,12 @@ function BookPage() {
   return (
     <div className="w-full h-[98vh] mx-auto p-6 shadow-md rounded-lg border border-gray-200 custom-scroll flex flex-col gap-6">
       <div className="flex justify-between items-start">
-        <h1 className="text-3xl font-bold">{book.title}</h1>
+        <div className="flex items-center gap-2">
+          <h2 className="text-3xl font-bold">{book.title} | </h2>
+          <span className="text-3xl font-bold">
+            {book.avgRating?.toFixed(2)} ⭐{" "}
+          </span>
+        </div>
         <div className="flex gap-2">
           <BookUpdate
             book={book}
@@ -98,8 +104,35 @@ function BookPage() {
         </div>
       </div>
       <BookSuggestions id={book.id} />
+      <CommentList comments={book.comments || []} />
     </div>
   );
 }
 
 export default BookPage;
+
+interface CommentListProps {
+  comments: Comment[];
+}
+
+function CommentList({ comments }: CommentListProps) {
+  return (
+    <div className="mt-6 ">
+      <h3 className="text-xl font-semibold">Comments</h3>
+      {comments.length > 0 ? (
+        comments.map((comment) => (
+          <div
+            key={comment.id}
+            className="p-4 border-b border-gray-200">
+            <p className="text-sm ">{comment.content}</p>
+            <p className="text-xs text-violet-400">
+              {new Date(comment.createdAt).toLocaleDateString()}
+            </p>
+          </div>
+        ))
+      ) : (
+        <p>No comments yet.</p>
+      )}
+    </div>
+  );
+}

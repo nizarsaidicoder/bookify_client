@@ -1,4 +1,5 @@
 import { Tag } from "@types";
+import { Comment } from "./types_comment";
 
 type Book = {
   id: number;
@@ -8,10 +9,11 @@ type Book = {
   description: string | null;
   authorId: number;
   tags?: Tag[];
+  comments?: Comment[];
   avgRating?: number | null;
 };
 
-type BookBase = Omit<Book, "tags" | "description">;
+type BookBase = Omit<Book, "tags" | "description" | "comments">;
 
 type BookCreationData = {
   title: string;
