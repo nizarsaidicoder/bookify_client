@@ -7,40 +7,39 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-interface AuthorsPaginationProps {
+interface PaginatorProps {
   page: number;
   maxPage: number;
   onPageChange: (page: number) => void;
 }
 
-function AuthorsPagination({
-  page,
-  maxPage,
-  onPageChange,
-}: AuthorsPaginationProps) {
+function Paginator({ page, maxPage, onPageChange }: PaginatorProps) {
   const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > maxPage) return;
     onPageChange(newPage);
   };
-
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href="#"
             onClick={(e) => {
               e.preventDefault();
               handlePageChange(page - 1);
             }}
+            className="cursor-pointer"
           />
         </PaginationItem>
-        {Array.from({ length: maxPage }, (_, index) => {
-          const pageNumber = index + 1;
+        {Array.from({ length: Math.min(5, maxPage) }, (_, i) => {
+          // Calculate the starting page, ensuring we don't go below 1 or above maxPage-4
+          const startPage = Math.max(1, Math.min(page - 2, maxPage - 4));
+          const pageNumber = startPage + i;
+
           return (
-            <PaginationItem key={pageNumber}>
+            <PaginationItem
+              key={pageNumber}
+              className="cursor-pointer">
               <PaginationLink
-                href="#"
                 isActive={pageNumber === page}
                 onClick={(e) => {
                   e.preventDefault();
@@ -53,11 +52,11 @@ function AuthorsPagination({
         })}
         <PaginationItem>
           <PaginationNext
-            href="#"
             onClick={(e) => {
               e.preventDefault();
               handlePageChange(page + 1);
             }}
+            className="cursor-pointer"
           />
         </PaginationItem>
       </PaginationContent>
@@ -65,4 +64,4 @@ function AuthorsPagination({
   );
 }
 
-export default AuthorsPagination;
+export default Paginator;

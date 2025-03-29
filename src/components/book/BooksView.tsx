@@ -5,7 +5,7 @@ import { get_books } from "@/api/book";
 import { GetBookParams, BookBase } from "@types";
 import { Loader2Icon } from "lucide-react";
 import BooksFilter from "./BooksFilter";
-import BooksPagination from "./BookPagination";
+import Paginator from "@components/authors/Paginator";
 
 function BooksView() {
   const [books, setBooks] = useState<BookBase[]>([]);
@@ -57,7 +57,7 @@ function BooksView() {
         </BookSideBar>
         <div className="flex flex-col gap-4 w-full">
           <BooksList books={books} />
-          <BooksPagination
+          <Paginator
             onPageChange={handlePageChange}
             page={page}
             maxPage={maxPage}

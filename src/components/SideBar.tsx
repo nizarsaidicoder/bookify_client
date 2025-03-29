@@ -6,7 +6,6 @@ import {
   UserRoundPlus,
   BookType,
   LucideProps,
-  Tag,
   Heart,
 } from "lucide-react";
 
@@ -47,11 +46,6 @@ const items: NavItem[] = [
     title: "Books",
     url: "/books",
     icon: SquareLibrary,
-  },
-  {
-    title: "Genres",
-    url: "/tags",
-    icon: Tag,
   },
   {
     title: "Favorites",

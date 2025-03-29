@@ -141,6 +141,10 @@
   }
 }
 
+* {
+  user-select: none;
+}
+
 #root > div {
   display: flex;
   overflow: hidden;
@@ -156,6 +160,11 @@ body {
 
 main {
   overflow: hidden;
+}
+
+button {
+  cursor: pointer;
+  user-select: none;
 }
 
 .custom-scroll {

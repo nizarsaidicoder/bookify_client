@@ -6,7 +6,7 @@ import { Author, AuthorBase, GetAuthorParams } from "@types";
 import { Loader2Icon } from "lucide-react";
 import AuthorAddForm from "./AuthorAddForm";
 import AuthorsFilter from "./AuthorsFilter";
-import AuthorsPagination from "./AuthorsPagination";
+import Paginator from "./Paginator";
 
 function AuthorsView() {
   const [authors, setAuthors] = useState<AuthorBase[]>([]);
@@ -70,7 +70,7 @@ function AuthorsView() {
         </AuthorsSideBar>
         <div className="flex flex-col gap-4 w-full">
           <AuthorsList authors={authors} />
-          <AuthorsPagination
+          <Paginator
             onPageChange={handlePageChange}
             page={page}
             maxPage={maxPage}

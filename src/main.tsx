@@ -11,6 +11,7 @@ import BookPage from "@routes/bookPage";
 import BooksView from "@components/book/BooksView";
 import SigninPage from "@routes/siginPage";
 import SignupPage from "@routes/signupPage";
+import Home from "@routes/home";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
@@ -18,6 +19,11 @@ createRoot(document.getElementById("root")!).render(
         <Route
           path="/"
           element={<Root />}>
+          <Route
+            index
+            element={<Home />}
+          />
+
           <Route
             path="/signin"
             element={<SigninPage />}
