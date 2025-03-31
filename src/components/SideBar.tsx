@@ -56,7 +56,7 @@ const items: NavItem[] = [
 
 const auth_items: NavItem[] = [];
 
-if (!localStorage.getItem("userToken")) {
+if (!localStorage.getItem("token")) {
   auth_items.push({
     title: "Sign in",
     url: "/signin",
@@ -76,7 +76,7 @@ if (!localStorage.getItem("userToken")) {
 
 export function AppSidebar() {
   const signout = () => {
-    localStorage.removeItem("userToken");
+    localStorage.removeItem("token");
     window.location.reload();
   };
 

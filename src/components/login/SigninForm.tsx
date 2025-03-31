@@ -30,6 +30,7 @@ export function SigninForm({
       await sign_in(signinData);
       toast("Signed in successfully");
       navigator("/authors", { replace: true });
+      window.location.reload();
     } catch (err: unknown) {
       toast("Error signing in", {
         description:
