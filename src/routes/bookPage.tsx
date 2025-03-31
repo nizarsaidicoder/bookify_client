@@ -7,14 +7,46 @@ import { toast } from "sonner";
 import BookUpdate from "@components/book/BookUpdate";
 import BookSuggestions from "@components/book/BookSuggestions";
 import { Comment } from "@/types/types_comment";
-import { Heart } from "lucide-react";
+import { Heart, Star } from "lucide-react";
 import { useEffect, useState } from "react";
+import { createRating, getRatings, updateRating } from "@/api/ratings";
+import {
+  Rating,
+  RatingCreationData,
+  RatingUpdateData,
+} from "@/types/types_rating";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@components/ui/popover";
 
 function BookPage() {
   const { book_id } = useParams();
   const { book, author, loading, setBook } = useBook(book_id);
   const [isFavorite, setIsFavorite] = useState(false);
+  const userID: number = JSON.parse(localStorage.getItem("userId") || "0");
+  const [rating, setRating] = useState<Rating | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchRating = async () => {
+      if (!book) return;
+      try {
+        const ratings = await getRatings(book.id);
+        const userRating =
+          ratings.find((rating) => rating?.userId == userID) || null;
+        if (userRating) {
+          setRating(userRating);
+        } else {
+          setRating(null);
+        }
+      } catch (error) {
+        console.log(`Error fetching ratings for book ${book.id}:`, error);
+      }
+    };
+    if (userID) fetchRating();
+  }, [book, userID]);
 
   useEffect(() => {
     const favoriteBooks = JSON.parse(
@@ -32,6 +64,37 @@ function BookPage() {
     } catch (error) {
       toast("Failed to delete book");
       console.error(error);
+    }
+  };
+  const handleRating = async (value: number) => {
+    if (!book) return;
+    if (rating) {
+      const updatedRating: RatingUpdateData = { id: rating.id, value: value };
+      try {
+        await updateRating(updatedRating);
+        setRating((prevRating) =>
+          prevRating ? { ...prevRating, value } : null
+        );
+        toast("Rating updated successfully");
+      } catch (error) {
+        toast("Failed to update rating");
+        console.error("Error updating rating:", error);
+      }
+    } else {
+      const newRating: RatingCreationData = {
+        bookId: book.id,
+        userId: userID,
+        value: value,
+      };
+      console.log(newRating);
+      try {
+        const rating: Rating = await createRating(newRating);
+        setRating(rating);
+        toast("Rating added successfully");
+      } catch (error) {
+        toast("Failed to add rating");
+        console.error("Error adding rating:", error);
+      }
     }
   };
 
@@ -80,6 +143,27 @@ function BookPage() {
           </span>
         </div>
         <div className="flex gap-2">
+          {userID && (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline">Rate book</Button>
+              </PopoverTrigger>
+              <PopoverContent className=" outline-1 rounded-sm mt-4">
+                <div className="flex gap-2 items-center p-4">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <span
+                      key={i}
+                      className={` ${
+                        i <= (rating?.value ?? 0) ? "text-violet-600" : ""
+                      } cursor-pointer hover:text-violet-600 `}
+                      onClick={() => handleRating(i)}>
+                      <Star className="ml-1" />
+                    </span>
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
+          )}
           <BookUpdate
             book={book}
             onBookUpdate={setBook}

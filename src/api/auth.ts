@@ -20,7 +20,8 @@ export async function sign_in(data: SignInData): Promise<void> {
   }
   const userToken: UserToken = await res.json();
   // After receiving the token from sign_in:
-  localStorage.setItem("userToken", userToken.token);
+  localStorage.setItem("token", userToken.token); // Store the token in localStorage
+  localStorage.setItem("userId", userToken.user.id.toString()); // Store the userId in localStorage
 }
 
 export async function sign_up(data: SignUpData): Promise<User> {
