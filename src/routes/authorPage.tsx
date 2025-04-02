@@ -1,7 +1,6 @@
 import AuthorBookAddForm from "@components/author/AuthorBookAddForm";
 import { useParams } from "react-router";
-import { useAuthor } from "@/hooks/useAuthor";
-import { Loader2 } from "lucide-react";
+import { useAuthor } from "@hooks/author/useAuthor";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { Book } from "@types";
@@ -10,6 +9,7 @@ import { AuthorHeader } from "@components/author/AuthorHeader";
 import { AuthorActions } from "@components/author/AuthorActions";
 import { delete_author } from "@/api/author";
 import BooksCarousel from "@components/book/BooksCarousel";
+import LoadingIndicator from "@components/ui/loading-indicator";
 
 export function AuthorPage() {
   const author_id = Number(useParams().author_id);
@@ -35,11 +35,7 @@ export function AuthorPage() {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-full">
-        <Loader2 className="w-10 h-10 animate-spin" />
-      </div>
-    );
+    return <LoadingIndicator />;
   }
 
   if (!author) {
@@ -54,6 +50,7 @@ export function AuthorPage() {
       />
       <div className="flex flex-col items-center h-[98vh] custom-scroll gap-4 w-full p-4 rounded-md border border-gray-200">
         <div className="flex min-w-40 gap-8 w-full h-full">
+          {/* Author's Informations */}
           <div className="flex flex-col min-w-54 gap-2">
             <AuthorHeader
               firstname={author.firstname}
@@ -76,7 +73,7 @@ export function AuthorPage() {
               onDelete={handleDelete}
             />
           </div>
-
+          {/*  Author's Books Section */}
           <div className="flex flex-col gap-2 w-full">
             <div className="flex flex-col gap-4">
               <h2 className="text-2xl font-semibold">Biography</h2>

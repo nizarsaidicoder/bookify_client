@@ -12,43 +12,23 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { update_book } from "@/api/book";
-import { Book, BookUpdateData, Tag } from "@types";
-import { useEffect, useState } from "react";
+import { Book, BookUpdateData } from "@types";
 import { MultiSelect } from "@components/ui/multiselect";
-import { get_tags } from "@/api/tag";
 import { Button } from "@components/ui/button";
+import { useTags } from "@hooks/useTags";
+import { useBookForm } from "@hooks/book/useBookForm";
+
 interface BookUpdateProps {
   book: Book;
   onBookUpdate: (book: Book) => void;
 }
 
 function BookUpdate({ book, onBookUpdate }: BookUpdateProps) {
-  const [formData, setFormData] = useState({
-    title: book.title || "",
-    publicationYear: book.publicationYear || new Date().getFullYear(),
-    description: book.description || "",
-    cover: book.cover || "",
-  });
-  const [tags, setTags] = useState<string[]>([]); // ✅ Persist tags in state
-  const [selectedTags, setSelectedTags] = useState<string[]>(
+  const { formData, handleChange, handleTextareaChange, resetForm } =
+    useBookForm(book);
+  const { tags, selectedTags, setSelectedTags } = useTags(
     book.tags?.map((tag) => tag.name) || []
-  ); // ✅ Persist selected tags in state
-
-  useEffect(() => {
-    const fetchTags = async () => {
-      try {
-        const fetchedTags = await get_tags();
-        setTags(fetchedTags.map((tag: Tag) => tag.name)); // ✅ Update state correctly
-      } catch (error) {
-        console.error("Failed to fetch tags:", error);
-      }
-    };
-
-    fetchTags();
-  }, []); // ✅ Runs only once on mount
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-  };
+  );
 
   const handleSubmit = async () => {
     const bookPayload: BookUpdateData = {
@@ -58,6 +38,7 @@ function BookUpdate({ book, onBookUpdate }: BookUpdateProps) {
       cover: formData.cover,
       tags: selectedTags.join(","),
     };
+
     try {
       const updatedBook = await update_book(book.id, bookPayload);
       onBookUpdate(updatedBook);
@@ -65,19 +46,6 @@ function BookUpdate({ book, onBookUpdate }: BookUpdateProps) {
     } catch (error) {
       toast("Failed to update book " + error);
     }
-  };
-
-  const handleReset = () => {
-    setFormData({
-      title: book.title || "",
-      publicationYear: book.publicationYear || new Date().getFullYear(),
-      description: book.description || "",
-      cover: book.cover || "",
-    });
-  };
-
-  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setFormData({ ...formData, description: e.target.value });
   };
 
   return (
@@ -133,7 +101,7 @@ function BookUpdate({ book, onBookUpdate }: BookUpdateProps) {
               className="col-span-3 max-h-[250px]"
             />
           </div>
-          <div className="grid  items-center gap-4">
+          <div className="grid items-center gap-4">
             <Label htmlFor="tags">Tags</Label>
             <MultiSelect
               selected={selectedTags}
@@ -151,7 +119,7 @@ function BookUpdate({ book, onBookUpdate }: BookUpdateProps) {
           </Button>
           <Button
             variant="outline"
-            onClick={handleReset}>
+            onClick={resetForm}>
             Reset
           </Button>
         </DialogFooter>

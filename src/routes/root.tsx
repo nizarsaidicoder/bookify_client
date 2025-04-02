@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/SideBar";
+import { AppSidebar } from "@components/navigation/SideBar";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 

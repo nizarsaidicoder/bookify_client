@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 function Home() {
   return (
     <div className="w-full h-[98vh] px-4 custom-scroll flex flex-col gap-4 border border-gray-200 rounded-lg ">
-      {/* Hero Section */}
       <section className="my-12 px-4 text-center">
         <h1 className="text-4xl md:text-5xl font-bold  mb-6">
           Welcome to Bookify
@@ -30,7 +29,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className=" px-4 max-w-7xl mx-auto">
         <h2 className="text-3xl font-bold text-center mb-12">
           Why Choose Bookify?
@@ -49,7 +47,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Quick Links */}
       <section className="py-16 px-4 max-w-7xl mx-auto rounded-lg">
         <h2 className="text-3xl font-bold text-center mb-8">Get Started</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
@@ -71,7 +68,6 @@ function Home() {
   );
 }
 
-// Feature Card Component
 function FeatureCard({
   title,
   description,
@@ -82,7 +78,7 @@ function FeatureCard({
   icon: string;
 }) {
   return (
-    <div className=" p-6 rounded-lg shadow-sm hover:shadow-md transition-all outline-none border border-gray-100 text-center cursor-pointer hover:-translate-y-1 duration-200">
+    <div className=" p-6 rounded-lg   transition-all outline-none border text-center cursor-pointer hover:-translate-y-1 duration-200">
       <div className="text-4xl mb-4">{icon}</div>
       <h3 className="text-xl font-semibold mb-2">{title}</h3>
       <p className="text-accent-foreground">{description}</p>
@@ -90,7 +86,6 @@ function FeatureCard({
   );
 }
 
-// Quick Link Card Component
 function QuickLinkCard({
   title,
   description,
@@ -103,7 +98,7 @@ function QuickLinkCard({
   linkText: string;
 }) {
   return (
-    <div className=" p-6 rounded-lg shadow-sm border border-gray-100">
+    <div className=" p-6 rounded-lg  border ">
       <h3 className="text-xl font-semibold mb-2">{title}</h3>
       <p className="text-accent-foreground mb-4">{description}</p>
       <Button

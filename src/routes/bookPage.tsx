@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router";
-import { useBook } from "@/hooks/useBook";
+import { useBook } from "@/hooks/book/useBook";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { delete_book } from "@/api/book";
@@ -124,15 +124,6 @@ function BookPage() {
   if (loading) return <p className="text-center mt-10">Loading...</p>;
   if (!book) return <p className="text-center mt-10">Book not found.</p>;
 
-  const tagColors = [
-    "bg-blue-200 text-blue-800",
-    "bg-green-200 text-green-800",
-    "bg-red-200 text-red-800",
-    "bg-yellow-200 text-yellow-800",
-    "bg-purple-200 text-purple-800",
-    "bg-pink-200 text-pink-800",
-  ];
-
   return (
     <div className="w-full h-[98vh] mx-auto p-6 shadow-md rounded-lg border border-gray-200 custom-scroll flex flex-col gap-6">
       <div className="flex justify-between items-start">
@@ -143,7 +134,7 @@ function BookPage() {
           </span>
         </div>
         <div className="flex gap-2">
-          {userID && (
+          {userID != 0 && (
             <Popover>
               <PopoverTrigger asChild>
                 <Button variant="outline">Rate book</Button>
@@ -191,12 +182,14 @@ function BookPage() {
 
       {(book.tags ?? []).length > 0 && (
         <div className="mt-2 flex flex-wrap gap-2">
-          {book.tags?.map((tag, index) => (
+          {book.tags?.map((tag) => (
             <Badge
               key={tag.id}
-              className={`${
-                tagColors[index % tagColors.length]
-              } px-3 py-1 rounded-md`}>
+              className="px-3 py-1 rounded-md"
+              style={{
+                backgroundColor: tag.color,
+                color: tag.color === "#000000" ? "#ffffff" : "#000000",
+              }}>
               {tag.name}
             </Badge>
           ))}

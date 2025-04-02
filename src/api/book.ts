@@ -19,8 +19,10 @@ export async function get_books(
   const query = new URLSearchParams(
     Object.fromEntries(
       Object.entries(filter)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .filter(([_, value]) => value !== undefined && value !== "")
+        .filter(
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          ([_, value]) => value !== undefined && value !== "" && value !== null
+        )
         .map(([key, value]) => [key, String(value)])
     )
   ).toString();
@@ -52,7 +54,7 @@ export async function add_book(
   authorId: number,
   book: BookCreationData
 ): Promise<Book> {
-  const cleanedBook = removeEmptyFields(book); // Remove empty fields
+  const cleanedBook = removeEmptyFields(book);
 
   const url = `${apiBasename}/authors/${authorId}/books`;
 
@@ -61,7 +63,7 @@ export async function add_book(
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(cleanedBook), // Send cleaned book data
+    body: JSON.stringify(cleanedBook),
   });
 
   if (!res.ok) {

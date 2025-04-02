@@ -5,7 +5,7 @@ import { get_books } from "@/api/book";
 import { GetBookParams, BookBase } from "@types";
 import { Loader2Icon } from "lucide-react";
 import BooksFilter from "./BooksFilter";
-import Paginator from "@components/authors/Paginator";
+import Paginator from "@components/ui/Paginator";
 
 function BooksView() {
   const [books, setBooks] = useState<BookBase[]>([]);

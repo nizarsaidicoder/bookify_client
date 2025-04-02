@@ -6,7 +6,7 @@ import { Author, AuthorBase, GetAuthorParams } from "@types";
 import { Loader2Icon } from "lucide-react";
 import AuthorAddForm from "./AuthorAddForm";
 import AuthorsFilter from "./AuthorsFilter";
-import Paginator from "./Paginator";
+import Paginator from "@components/ui/Paginator";
 
 function AuthorsView() {
   const [authors, setAuthors] = useState<AuthorBase[]>([]);

@@ -1,33 +1,47 @@
 import BooksList from "@components/book/BooksList";
-import { useEffect, useState } from "react";
-import { get_book } from "@/api/book";
-import { Book } from "@types";
+import { useFavoriteBooks } from "@hooks/book/useFavoriteBooks";
+function FavoritesStatus({
+  isLoading,
+  error,
+}: {
+  isLoading: boolean;
+  error: string | null;
+}) {
+  if (isLoading) {
+    return (
+      <div className="text-center py-8">Loading your favorite books...</div>
+    );
+  }
+
+  if (error) {
+    return <div className="text-center py-8 text-red-500">{error}</div>;
+  }
+
+  return null;
+}
 
 function FavoritesPage() {
-  const [favoriteBooks, setFavoriteBooks] = useState<Book[]>([]);
-
-  useEffect(() => {
-    const favoriteBooksIds = JSON.parse(
-      localStorage.getItem("favoriteBooks") || "[]"
-    );
-
-    const fetchBooks = async () => {
-      const booksMap = new Map<number, Book>();
-      for (const bookId of favoriteBooksIds) {
-        if (!booksMap.has(bookId)) {
-          const book = await get_book(bookId);
-          booksMap.set(bookId, book);
-        }
-      }
-      setFavoriteBooks(Array.from(booksMap.values()));
-    };
-    fetchBooks();
-  }, []);
+  const { favoriteBooks, isLoading, error } = useFavoriteBooks();
 
   return (
-    <>
-      <BooksList books={favoriteBooks} />
-    </>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold mb-6">Your Favorite Books</h1>
+      <FavoritesStatus
+        isLoading={isLoading}
+        error={error}
+      />
+      {!isLoading && !error && (
+        <>
+          {favoriteBooks.length > 0 ? (
+            <BooksList books={favoriteBooks} />
+          ) : (
+            <p className="text-center py-8 text-gray-500">
+              You haven't added any books to favorites yet.
+            </p>
+          )}
+        </>
+      )}
+    </div>
   );
 }
 
