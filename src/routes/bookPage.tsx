@@ -6,7 +6,6 @@ import { delete_book } from "@/api/book";
 import { toast } from "sonner";
 import BookUpdate from "@components/book/BookUpdate";
 import BookSuggestions from "@components/book/BookSuggestions";
-import { Comment } from "@/types/types_comment";
 import { Heart, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createRating, getRatings, updateRating } from "@/api/ratings";
@@ -20,6 +19,11 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@components/ui/popover";
+import { delete_comment, update_comment } from "@/api/comment";
+import CommentList from "@components/comments/CommentList";
+import { CommentUpdate } from "@/types/types_comment";
+import CommentCreateDialog from "@components/comments/CommentCreate";
+import { Comment } from "@/types/types_comment";
 
 function BookPage() {
   const { book_id } = useParams();
@@ -121,6 +125,65 @@ function BookPage() {
     );
   };
 
+  const handleCommentDelete = async (commentId: number) => {
+    try {
+      // Call your API to delete the comment here
+      await delete_comment(commentId);
+      toast("Comment deleted successfully");
+      // Optionally, you can also update the book state to remove the deleted comment
+      setBook((prevBook) => {
+        if (!prevBook) return prevBook;
+        return {
+          ...prevBook,
+          comments: prevBook.comments?.filter(
+            (comment) => comment.id !== commentId
+          ),
+        };
+      });
+    } catch (error) {
+      toast("Failed to delete comment");
+      console.error("Error deleting comment:", error);
+    }
+  };
+
+  const handleCommentUpdate = async (commentId: number, content: string) => {
+    try {
+      const updatedCommentData: CommentUpdate = {
+        id: commentId,
+        content,
+        bookId: book?.id || 0,
+        userId: userID,
+      };
+      // Call your API to update the comment here
+      const updatedComment = await update_comment(updatedCommentData);
+      toast("Comment updated successfully");
+      // Optionally, you can also update the book state to reflect the updated comment
+      setBook((prevBook) => {
+        if (!prevBook) return prevBook;
+        return {
+          ...prevBook,
+          comments: prevBook.comments?.map((comment) =>
+            comment.id === commentId ? updatedComment : comment
+          ),
+        };
+      });
+    } catch (error) {
+      toast("Failed to update comment");
+      console.error("Error updating comment:", error);
+    }
+  };
+
+  const onCommentCreate = (comment: Comment) => {
+    if (!book) return;
+    setBook((prevBook) => {
+      if (!prevBook) return prevBook;
+      return {
+        ...prevBook,
+        comments: [...(prevBook.comments || []), comment],
+      };
+    });
+  };
+
   if (loading) return <p className="text-center mt-10">Loading...</p>;
   if (!book) return <p className="text-center mt-10">Book not found.</p>;
 
@@ -158,6 +221,11 @@ function BookPage() {
           <BookUpdate
             book={book}
             onBookUpdate={setBook}
+          />
+          <CommentCreateDialog
+            userID={userID}
+            bookID={book.id}
+            onCommentCreate={onCommentCreate}
           />
           <Button
             variant="destructive"
@@ -227,35 +295,14 @@ function BookPage() {
         </div>
       </div>
       <BookSuggestions id={book.id} />
-      <CommentList comments={book.comments || []} />
+      <CommentList
+        comments={book.comments || []}
+        userID={userID}
+        handleDelete={handleCommentDelete}
+        handleUpdate={handleCommentUpdate}
+      />
     </div>
   );
 }
 
 export default BookPage;
-
-interface CommentListProps {
-  comments: Comment[];
-}
-
-function CommentList({ comments }: CommentListProps) {
-  return (
-    <div className="mt-6 ">
-      <h3 className="text-xl font-semibold">Comments</h3>
-      {comments.length > 0 ? (
-        comments.map((comment) => (
-          <div
-            key={comment.id}
-            className="p-4 border-b border-gray-200">
-            <p className="text-sm ">{comment.content}</p>
-            <p className="text-xs text-violet-400">
-              {new Date(comment.createdAt).toLocaleDateString()}
-            </p>
-          </div>
-        ))
-      ) : (
-        <p>No comments yet.</p>
-      )}
-    </div>
-  );
-}

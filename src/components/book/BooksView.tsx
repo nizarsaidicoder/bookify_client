@@ -3,9 +3,9 @@ import BooksList from "@components/book/BooksList";
 import { useEffect, useState } from "react";
 import { get_books } from "@/api/book";
 import { GetBookParams, BookBase } from "@types";
-import { Loader2Icon } from "lucide-react";
 import BooksFilter from "./BooksFilter";
 import Paginator from "@components/ui/Paginator";
+import LoadingIndicator from "@components/ui/loading-indicator";
 
 function BooksView() {
   const [books, setBooks] = useState<BookBase[]>([]);
@@ -44,9 +44,7 @@ function BooksView() {
     fetchBooks(filter);
   }, [filter, page]);
 
-  if (loading)
-    return <Loader2Icon className="animate-spin h-10 w-10 mx-auto" />;
-
+  if (loading) return <LoadingIndicator />;
   if (error) return <p>{error}</p>;
 
   return (

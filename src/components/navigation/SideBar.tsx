@@ -7,6 +7,7 @@ import {
   BookType,
   LucideProps,
   Heart,
+  Tag,
 } from "lucide-react";
 import { NavLink } from "react-router";
 import {
@@ -49,6 +50,11 @@ const MAIN_NAV_ITEMS: NavItem[] = [
     title: "Books",
     url: "/books",
     icon: SquareLibrary,
+  },
+  {
+    title: "Tags",
+    url: "/tags",
+    icon: Tag,
   },
   {
     title: "Favorites",

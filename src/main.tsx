@@ -13,6 +13,7 @@ import SigninPage from "@routes/siginPage";
 import SignupPage from "@routes/signupPage";
 import Home from "@routes/home";
 import FavoritesPage from "@routes/favoritesPage";
+import TagsPage from "@routes/tagsPage";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
@@ -49,6 +50,10 @@ createRoot(document.getElementById("root")!).render(
               element={<BookPage />}
             />
           </Route>
+          <Route
+            path="tags"
+            element={<TagsPage />}
+          />
           <Route
             path="authors"
             element={<AuthorsPage />}>

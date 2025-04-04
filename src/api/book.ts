@@ -8,7 +8,7 @@ import {
 } from "@types";
 import { apiBasename } from ".";
 
-interface ErrorResponse {
+export interface ErrorResponse {
   msg: string;
   code?: number;
 }

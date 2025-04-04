@@ -1,4 +1,5 @@
 import BooksList from "@components/book/BooksList";
+import LoadingIndicator from "@components/ui/loading-indicator";
 import { useFavoriteBooks } from "@hooks/book/useFavoriteBooks";
 function FavoritesStatus({
   isLoading,
@@ -8,9 +9,7 @@ function FavoritesStatus({
   error: string | null;
 }) {
   if (isLoading) {
-    return (
-      <div className="text-center py-8">Loading your favorite books...</div>
-    );
+    return <LoadingIndicator />;
   }
 
   if (error) {
@@ -24,8 +23,7 @@ function FavoritesPage() {
   const { favoriteBooks, isLoading, error } = useFavoriteBooks();
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">Your Favorite Books</h1>
+    <div className="h-[98vh] w-full">
       <FavoritesStatus
         isLoading={isLoading}
         error={error}

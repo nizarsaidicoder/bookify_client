@@ -77,22 +77,6 @@ function BooksFilter({ onFilter }: BooksFilterProps) {
             placeholder="1851..."
           />
         </div>
-
-        <div className="flex flex-col gap-2 items-start">
-          <Label>Filter by author ID</Label>
-          <Input
-            type="number"
-            name="authorId"
-            value={filter.authorId || ""}
-            onChange={(e) =>
-              updateFilter(
-                "authorId",
-                e.target.value ? Number(e.target.value) : undefined
-              )
-            }
-            placeholder="123..."
-          />
-        </div>
         <div className="flex flex-col gap-2 items-start">
           <Label>Filter by tags</Label>
           <MultiSelect

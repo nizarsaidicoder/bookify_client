@@ -11,6 +11,11 @@ type CommentBase = Omit<Comment, "id" | "createdAt" | "updatedAt">;
 
 type CommentCreate = Omit<Comment, "id" | "createdAt" | "updatedAt">;
 
-type CommentUpdate = Partial<CommentCreate> & { id: number };
+type CommentUpdate = {
+  id: number;
+  content: string;
+  bookId: number;
+  userId: number;
+};
 
 export type { Comment, CommentBase, CommentCreate, CommentUpdate };

@@ -3,10 +3,10 @@ import AuthorsList from "@components/authors/AuthorsList";
 import { useEffect, useState } from "react";
 import { get_authors } from "@/api/author";
 import { Author, AuthorBase, GetAuthorParams } from "@types";
-import { Loader2Icon } from "lucide-react";
 import AuthorAddForm from "./AuthorAddForm";
 import AuthorsFilter from "./AuthorsFilter";
 import Paginator from "@components/ui/Paginator";
+import LoadingIndicator from "@components/ui/loading-indicator";
 
 function AuthorsView() {
   const [authors, setAuthors] = useState<AuthorBase[]>([]);
@@ -56,8 +56,7 @@ function AuthorsView() {
     }));
   };
 
-  if (loading)
-    return <Loader2Icon className="animate-spin h-10 w-10 mx-auto" />;
+  if (loading) return <LoadingIndicator />;
 
   if (error) return <p>{error}</p>;
 
