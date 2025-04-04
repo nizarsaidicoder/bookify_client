@@ -23,7 +23,7 @@ interface TagDialogProps {
 
 function TagDialog({ tag, onTagUpdate, onTagDelete }: TagDialogProps) {
   const [name, setName] = useState(tag.name);
-  const [isOpen, setIsOpen] = useState(false);
+  const [, setIsOpen] = useState(false);
 
   const handleDelete = async () => {
     try {
